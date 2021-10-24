@@ -1,4 +1,4 @@
-use std::{collections::HashMap};
+use std::collections::HashMap;
 
 pub fn character_freq_counter(plain_text: &str) -> HashMap<char, u32> {
     let mut hm = HashMap::new();
