@@ -1,5 +1,3 @@
-use super::super::compression::compressor;
-
 #[cfg(test)]
 mod tests {
     #[test]

@@ -1,22 +1,16 @@
 use std::process::exit;
+use crate::pkg::printer;
+use crate::pkg::printer::MsgLevel;
 
-use super::super::printer;
-use super::super::MsgLevel;
+use crate::compressor::huffman;
 
-mod huffman;
-
-pub struct Compressor<F>
-where
-    F: Fn(&str) -> String,
+pub struct Compressor
 {
-    compress: F,
+    compress: fn(&str) -> String,
 }
 
-impl<F> Compressor<F> 
-where 
-    F: Fn(&str) -> String,
-{
-    pub fn new(alg: &str) -> Compressor<impl Fn(&str) -> String> {
+impl Compressor {
+    pub fn new(alg: &str) -> Compressor {
         Compressor {
            compress: match alg {
                 "huffman" => huffman::compress,
@@ -33,4 +27,10 @@ where
     }
 }
 
-
+#[test]
+fn test_huffman() {
+    let data = "aabbccddee";
+    let c = Compressor::new("huffman");
+    let result = c.run(data);
+    assert_eq!(result, String::from(""));
+}

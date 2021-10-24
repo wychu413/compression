@@ -6,16 +6,17 @@ mod pkg;
 use pkg::printer;
 use pkg::printer::MsgLevel;
 
-mod compression;
-use crate::compression::compressor;
+mod compressor;
+use compressor::compressor::Compressor;
 
+/*
 #[derive(Debug)]
-struct Config<'a> {
+struct Config {
     input_text: String,
-    output_file: &'a str,
-    compression_alg: &'a str,
+    output_file: String,
+    compression_alg: String,
 }
-
+*/
 fn main() {
     let matches = App::new("Text Compression Utility")
         .version(crate_version!())
@@ -67,13 +68,13 @@ fn main() {
         printer::print(MsgLevel::Error, "Failed with unknown Error");
         process::exit(1);
     };
-
+    /*
     let config = Config {
         input_text: input_text,
         output_file: output_file,
         compression_alg: alg,
     };
-
-    printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_text.len()*8, output_file).as_str());
+    */
+    // printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_text.len()*8, output_file).as_str());
 }
 
