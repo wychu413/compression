@@ -1,4 +1,4 @@
-use std::process;
+use std::error::Error;
 use std::fs;
 use clap::{crate_version, App, Arg};
 
@@ -9,20 +9,35 @@ use pkg::printer::MsgLevel;
 mod compressor;
 use compressor::compressor::Compressor;
 
-/*
+
 #[derive(Debug)]
 struct Config {
-    input_text: String,
+    // the algorithm to compress/decompress the data
+    algo: String,
+    // compress/decompress
+    is_decompress: bool,
+    // the input file name
+    input_file: String,
+    // the input data read from the input file
+    input_data: Vec<u8>,
+    // the output file name
     output_file: String,
-    compression_alg: String,
 }
-*/
+
 fn main() {
     let matches = App::new("Text Compression Utility")
         .version(crate_version!())
         .author("wychu")
         .about("Simple implementation of Text Compression")
         .after_help("Welcome!")
+        .arg(
+            Arg::with_name("decompress")
+                .help("Action: Compress")
+                .short("d")
+                .long("decompress")
+                .takes_value(false)
+                .required(true)
+        )
         .arg(
             Arg::with_name("inputFile")
                 .help("The input file name")
@@ -39,42 +54,24 @@ fn main() {
                 .takes_value(true)
         )
         .arg(
-            Arg::with_name("compAlg")
+            Arg::with_name("algo")
                 .help("The compression algorithm that's going to be used on the Text file")
                 .short("a")
-                .long("alg")
+                .long("algo")
                 .takes_value(true)
                 .default_value("huffman")
         )
         .get_matches();
 
-    let input_text = if let Some(input_file) = matches.value_of("inputFile") {
-        fs::read_to_string(input_file).expect(format!("Fail to read file {}", input_file).as_str())
-    } else {
-        printer::print(MsgLevel::Error, "Failed with unknown Error");
-        process::exit(1);
-    };
+    let input_file = matches.value_of("inputFile").unwrap();
 
-    let output_file = if let Some(o) = matches.value_of("outputFile") {   
-        o
-    } else {
-        printer::print(MsgLevel::Error, "Failed with unknown Error");
-        process::exit(1);
-    };
+    let output_file = matches.value_of("outputFile").unwrap();
 
-    let alg = if let Some(ca) = matches.value_of("compAlg") {
-        ca
-    } else {
-        printer::print(MsgLevel::Error, "Failed with unknown Error");
-        process::exit(1);
-    };
-    /*
-    let config = Config {
-        input_text: input_text,
-        output_file: output_file,
-        compression_alg: alg,
-    };
-    */
-    // printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_text.len()*8, output_file).as_str());
+    let algo = matches.value_of("algo").unwrap();
+
+    let is_decompress = matches.is_present("decompress").unwrap();
+
+    let buffer = fs::read(input_file)?;
+
 }
 

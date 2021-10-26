@@ -6,7 +6,8 @@ use crate::compressor::huffman;
 
 pub struct Compressor
 {
-    compress: fn(&str) -> String,
+    compress: fn(&Vec<u8>) -> Vec<u8>,
+
 }
 
 impl Compressor {
@@ -22,15 +23,7 @@ impl Compressor {
         }
     }
 
-    pub fn run(self, text: &str) -> String {
-        (self.compress)(text)
+    pub fn run(self, bytes: &Vec<u8>) -> Vec<u8> {
+        (self.compress)(bytes)
     }
-}
-
-#[test]
-fn test_huffman() {
-    let data = "aabbccddee";
-    let c = Compressor::new("huffman");
-    let result = c.run(data);
-    assert_eq!(result, String::from(""));
 }
