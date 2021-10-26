@@ -9,6 +9,7 @@ use pkg::printer::MsgLevel;
 mod compressor;
 use compressor::compressor::Compressor;
 
+
 #[derive(Debug)]
 struct Config {
     // the algorithm to compress/decompress the data
@@ -72,15 +73,5 @@ fn main() {
 
     let buffer = fs::read(input_file)?;
 
-    let config = Config {
-        is_decompress: is_decompress,
-        input_file: String::from(input_file),
-        input_data: buffer,
-        output_file: String::from(output_file),
-        algo: algo,
-    };
-    printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_data.len()*8, output_file).as_str());
-
-    let compress = Compressor;
 }
 
