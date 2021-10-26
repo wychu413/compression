@@ -1,28 +1,36 @@
+use std::cmp::Ordering;
 use std::collections::HashMap;
+use std::hash;
 
-pub fn character_freq_counter(plain_text: &str) -> HashMap<char, u32> {
-    let mut hm = HashMap::new();
-    for ch in plain_text.chars() {
-       *hm.entry(ch).or_insert(0) += 1; 
-    }
-    hm
+pub struct ByteFreq {
+    pub byte: u8,
+    pub freq: u32,
 }
 
-#[cfg(test)]
-mod tests {
-    use std::collections::HashMap;
-
-    use crate::pkg::util::character_freq_counter;
-
-    #[test]
-    fn test_character_freq_counter() {
-        let mut expected = HashMap::new();
-        expected.insert('a', 2); 
-        expected.insert('b', 2); 
-        expected.insert('c', 2); 
-        expected.insert('d', 2); 
-        expected.insert('e', 2); 
-        expected.insert('g', 1); 
-        assert_eq!(expected, character_freq_counter("aabbccddeeg"));
+impl PartialEq for ByteFreq {
+    fn eq(&self, other: &Self) -> bool {
+        self.freq == other.freq
     }
+}
+
+impl Eq for ByteFreq {}
+
+impl PartialOrd for ByteFreq {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.freq.partial_cmp(&other.freq)
+    }
+}
+
+impl Ord for ByteFreq {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.freq.cmp(&other.freq)
+    }
+}
+
+pub fn bytes_freq_count(bytes: &Vec<u8>) -> HashMap<u8, u32> {
+    let mut hm = HashMap::new();
+    for &byte in bytes.iter() {
+       *hm.entry(byte).or_insert(0) += 1; 
+    }
+    hm
 }
