@@ -80,14 +80,7 @@ fn main() {
         algo: algo,
     };
     printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_data.len()*8, output_file).as_str());
+
+    let compress = Compressor;
 }
-
-
-
-
-
-
-
-
-
 
