@@ -9,6 +9,7 @@ use pkg::printer::MsgLevel;
 mod compressor;
 use compressor::compressor::Compressor;
 
+
 #[derive(Debug)]
 struct Config {
     // the algorithm to compress/decompress the data

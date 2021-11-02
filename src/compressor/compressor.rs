@@ -7,6 +7,7 @@ use crate::compressor::huffman;
 pub struct Compressor
 {
     compress: fn(&Vec<u8>) -> Vec<u8>,
+
 }
 
 impl Compressor {
@@ -26,4 +27,3 @@ impl Compressor {
         (self.compress)(bytes)
     }
 }
-
