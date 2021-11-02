@@ -1,6 +1,6 @@
-use std::error::Error;
 use std::fs;
 use clap::{crate_version, App, Arg};
+use bit_vec::BitVec;
 
 mod pkg;
 use pkg::printer;
@@ -69,9 +69,17 @@ fn main() {
 
     let algo = matches.value_of("algo").unwrap();
 
-    let is_decompress = matches.is_present("decompress").unwrap();
+    let is_decompress = matches.is_present("decompress");
 
-    let buffer = fs::read(input_file)?;
+    let buffer = fs::read(input_file).unwrap();
 
+    let config = Config {
+        is_decompress: is_decompress,
+        input_file: String::from(input_file),
+        input_data: buffer,
+        output_file: String::from(output_file),
+        algo: String::from(algo),
+    };
+    printer::print(MsgLevel::Info, format!("target file with size {} bytes and output to {}", config.input_data.len()*8, output_file).as_str());
 }
 
