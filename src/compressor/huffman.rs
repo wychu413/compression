@@ -1,6 +1,5 @@
 use std::collections::{BinaryHeap, HashMap};
 use std::cmp::{Reverse, Ordering};
-use bit_vec::BitVec;
 use crate::pkg::util::bytes_freq_count;
 
 /// Cannonical Huffman code is being used
@@ -92,8 +91,11 @@ impl HuffmanTree {
         // the symbol as the key and the length of huffman code
         // as value
         let map = HashMap::<u8, u32>::new();
-        // map
 
+        let stack = Vec::new();
+        loop {
+            
+        }
         HashMap::<u8, Vec<bool>>::new()
     }
 }
